@@ -20,53 +20,53 @@ export const App = () => {
   const byTimeEnablingSound = useSelector(
     (state) => state.aviator.byTimeEnablingSound
   );
+  const backgroundMusic_url = useSelector(
+    (state) => state.aviator.backgroundMusic_url
+  );
 
   useEffect(() => {
-    const handlePlay = async () => {
-      if (audioRefMusic?.current) {
-        try {
-          if (isEnableMusic && byTimeEnablingMusic) {
-            await audioRefMusic?.current?.play();
-          } else {
-            audioRefMusic?.current?.pause();
-          }
-        } catch (error) {
-          // Handle any errors during play
-          console.error("Error during play:", error);
-        }
-      }
-    };
-  
-    handlePlay();
+    handlePlayMusic();
   }, [isEnableMusic, byTimeEnablingMusic]);
-  
-
   useEffect(() => {
-    const handlePlay = async () => {
-      if (audioRefSound?.current) {
-        try {
-          if (byTimeEnablingSound && isEnableSound) {
-            console.log("inside if");
-            await audioRefSound?.current?.play();
-          } else {
-            console.log("inside else");
-            audioRefSound?.current?.pause();
-          }
-        } catch (error) {
-          // Handle any errors during play
-          console.error("Error during play:", error);
-        }
-      }
-    };
-  
-    handlePlay();
+    handlePlaySound();
   }, [byTimeEnablingSound, isEnableSound]);
   
 
+  // function to handle the music and sounds
+  const handlePlayMusic = async () => {
+    if (audioRefMusic?.current) {
+      try {
+        if (isEnableMusic && byTimeEnablingMusic) {
+          await audioRefMusic?.current?.play();
+        } else {
+          await audioRefMusic?.current?.pause();
+        }
+      } catch (error) {
+        // Handle any errors during play
+        console.error("Error during play:", error);
+      }
+    }
+  };
+  const handlePlaySound = async () => {
+    try {
+      if (byTimeEnablingSound && isEnableSound) {
+        console.log("inside if");
+        await audioRefSound?.current?.play();
+      } else {
+        console.log("inside else");
+        await audioRefSound?.current?.pause();
+      }
+    } catch (error) {
+      // Handle any errors during play
+      console.error("Error during play:", error);
+    }
+  };
+
+  console.log(backgroundMusic_url,"this is music url");
   return (
     <BrowserRouter>
-      <audio ref={audioRefMusic}  hidden>
-        <source src={music} type="audio/mp3" />
+      <audio ref={audioRefMusic}  hidden >
+        <source src={`${backgroundMusic_url}`} type="audio/mp3" />
       </audio>
       <audio ref={audioRefSound} hidden>
         <source src={crashmusic} type="audio/mp3" />

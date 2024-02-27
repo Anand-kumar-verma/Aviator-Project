@@ -20,6 +20,7 @@ import MybetHistory from "./DialogComponent/MybetHistory";
 import { gray } from "./color";
 import Changebackground from "./DialogComponent/Changebackground";
 import { PiSelectionBackground } from "react-icons/pi";
+import ChangebackgroundMusic from "./DialogComponent/ChangebackgroundMusic";
 
 export default function AccountMenu({ anchorEl, setAnchorEl }) {
   const dispatch = useDispatch()
@@ -131,6 +132,19 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
           </p>
         </MenuItem>
         <Divider className="!bg-gray-500 !p-0" />
+        <MenuItem
+          className={`${gray} !text-white !text-sm !flex !justify-between`}
+          onClick={() => {
+            setOpenCustomDialogBox(true);
+            setTypeOfDialogBox("Change Music");
+            // handleClose()
+          }}
+        >
+          <p className="flex items-center gap-2">
+            <PiSelectionBackground /> <span>Change Music</span>
+          </p>
+        </MenuItem>
+        <Divider className="!bg-gray-500 !p-0" />
 
         <MenuItem
           className={`${gray} !text-white !text-sm !flex !justify-between`}
@@ -184,13 +198,15 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
             (typeOfDialogBox === "Free Bets" && <FreeBets />) ||
             (typeOfDialogBox === "Game Limits" && <GameLimits />) ||
             (typeOfDialogBox === "My Bet History" && <MybetHistory />) ||
-            (typeOfDialogBox === "Change Background" && <Changebackground />)
+            (typeOfDialogBox === "Change Background" && <Changebackground setOpenCustomDialogBox={setOpenCustomDialogBox} handleClose={handleClose}/>) ||
+            (typeOfDialogBox === "Change Music" && <ChangebackgroundMusic setOpenCustomDialogBox={setOpenCustomDialogBox} handleClose={handleClose}/>)
           }
           title={
             (typeOfDialogBox === "Free Bets" && "FREE BETS MANAGEMENT") ||
             (typeOfDialogBox === "Game Limits" && "GAME LIMITS") ||
             (typeOfDialogBox === "My Bet History" && "MY BET HISTORY") || 
-            (typeOfDialogBox === "Change Background" && "CHOOSE BACKGROUND")
+            (typeOfDialogBox === "Change Background" && "CHOOSE BACKGROUND") ||
+            (typeOfDialogBox === "Change Music" && "CHOOSE MUSIC")
           }
         />
       )}

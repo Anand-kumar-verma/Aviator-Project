@@ -1,4 +1,4 @@
-import { CircularProgress, Slide, Switch } from "@mui/material";
+import { Box, Button, CircularProgress, Slide, Stack, Switch } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { useQueryClient } from "react-query";
 import { gray } from "./color";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -102,17 +104,51 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
             </span>
             <span className="">{`${sec || 0}.${mili || 0} x`}</span>
           </p>
-          <p className="flex flex-col bg-white bg-opacity-50 items-center rounded-full px-4 py-1">
-            <span className="text-[12px]">Win, USD</span>
-            <span className="">
-              {`${
-                betValue * seconds +
-                  Number(milliseconds?.toString()?.substring(0, 1)) || 0
-              }.${
-                Number(milliseconds?.toString()?.substring(1, 2) || 1) * 10
-              } x`}
-            </span>
-          </p>
+         
+          <Button
+            sx={{
+              padding: 0,
+              overflow: "hidden",
+              position: "relative",
+              width: "130px",
+              background: "#4EAF11",
+              borderRadius: "40px",
+              color: "white",
+              textTransform: "capitalize",
+            }}
+          >
+            <Box sx={{ position: "absolute", left: 0, top: "3px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "30px" }} />
+            </Box>
+            <Box sx={{ position: "absolute", left: "20px", top: "25px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "18px" }} />
+            </Box>
+            <Box sx={{ position: "absolute", left: "-9px", top: "25px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "18px" }} />
+            </Box>
+            <Stack>
+              <Box>Win, USD</Box>{" "}
+              <Box>
+                <span className="">
+                  {`${
+                    betValue * seconds +
+                      Number(milliseconds?.toString()?.substring(0, 1)) || 0
+                  }.${
+                    Number(milliseconds?.toString()?.substring(1, 2) || 1) * 10
+                  } x`}
+                </span>
+              </Box>
+            </Stack>
+            <Box sx={{ position: "absolute", right: 0, top: "3px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "30px" }} />
+            </Box>
+            <Box sx={{ position: "absolute", right: "20px", top: "25px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "18px" }} />
+            </Box>
+            <Box sx={{ position: "absolute", right: "-9px", top: "25px" }}>
+              <StarBorderIcon sx={{ color: "#469D0F", fontSize: "18px" }} />
+            </Box>
+          </Button>
         </div>
       );
     } catch (e) {
@@ -134,9 +170,10 @@ const SpentBetLeft = ({ milliseconds, seconds, fk, formik }) => {
       fk.setFieldValue("isStart1", false);
       cashOut(seconds, milliseconds);
     }
+
+   
   }, [milliseconds]);
 
-  //  console.log(typeof(Number(`${seconds}.${milliseconds}`)),"aaa")
   return (
     <div
       className={`w-[100%]  lg:w-[50%] mt-2  flex justify-between lg:flex-row sm:flex-col md:flex-col`}

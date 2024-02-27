@@ -36,13 +36,15 @@ import win from "../Assets/win.png";
 import bg from "../Assets/bg.jpg";
 import io from "socket.io-client";
 import cloud from "../Assets/cloud.png";
-const socket = io("http://localhost:9000");
+const socket = io("https://app.ferryinfotech.in/");
 const AirPlane = ({ formik }) => {
   const dispatch = useDispatch();
   const backgroundImage_url = useSelector(
     (state) => state.aviator.backgroundImage_url
   );
-
+  const byTimeEnablingSound = useSelector(
+    (state) => state.aviator.byTimeEnablingSound
+  );
   const isMediumScreen = useMediaQuery({ minWidth: 800 });
   const [time, setTime] = useState(0);
   const [bottomLeftCoordinate, setBottomLeftCoordinates] = useState({
@@ -106,19 +108,19 @@ const AirPlane = ({ formik }) => {
     if (randomFlyingTime <= 5) {
       animationUpTo_5_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
+       dispatch(byTimeIsEnableSound(true))
         fk.setFieldValue("isShadowPath", false);
       }, (randomFlyingTime - 0.3) * 1000);
     } else if (randomFlyingTime > 5 && randomFlyingTime < 10) {
       animationupto_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
+       dispatch(byTimeIsEnableSound(true))
         fk.setFieldValue("isShadowPath", false);
       }, (randomFlyingTime - 0.3) * 1000);
     } else {
       animationabove_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-        dispatch(byTimeIsEnableSound(true));
+       dispatch(byTimeIsEnableSound(true))
         fk.setFieldValue("isShadowPath", false);
       }, (5 + ((randomFlyingTime - 5) / 5 - 0.3) * 5) * 1000);
     }
@@ -138,7 +140,6 @@ const AirPlane = ({ formik }) => {
     const timerInterval = setInterval(() => {
       setTime((prevTime) => {
         const newTime = prevTime + 1;
-
         if (newTime >= (randomFlyingTime - 1.5) * 1000) {
           setTime(0);
           milliseconds = 0;
@@ -150,12 +151,12 @@ const AirPlane = ({ formik }) => {
           fk.setFieldValue("waitingForNextTime2", false);
 
           formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
-          dispatch(byTimeIsEnableMusic(false));
-          dispatch(byTimeIsEnableSound(false));
+         
           fk.setFieldValue("isFlying", false);
           setResultFuncton();
-          clearInterval(timerInterval);
+         
           mainDiv.style.animation = "";
+          clearInterval(timerInterval);
         } else if (milliseconds >= 100) {
           // Update seconds when milliseconds reach 100
           seconds += 1;
@@ -182,6 +183,7 @@ const AirPlane = ({ formik }) => {
     }, randomFlyingTime * 1000 - 2000);
     // Clear interval after randomFlyingTime seconds
     setTimeout(() => {
+      
       fk.setFieldValue("setcolorofdigit", true);
       fk.setFieldValue("isShadowPath", false);
       // fk.setFieldValue("isStart1", false);
@@ -201,7 +203,13 @@ const AirPlane = ({ formik }) => {
       seconds = 0;
       fk.setFieldValue("setcolorofdigit", false);
       fk.setFieldValue("setloder", true);
+      dispatch(byTimeIsEnableMusic(false));
+      
     }, randomFlyingTime * 1000 + 3000);
+    setTimeout(() => {
+      dispatch(byTimeIsEnableSound(false))
+    }, randomFlyingTime * 1000 + 6000);
+
     setTimeout(() => {
       fk.setFieldValue("isShadowPath", true);
     }, 800);
@@ -229,7 +237,9 @@ const AirPlane = ({ formik }) => {
     <>
       <button
         className="bg-blue-700 rounded-full px-4"
-        onClick={() => startFly(Math.floor(Math.random() * 30 + 10))}
+        onClick={() => 
+     startFly(Math.floor(Math.random() * 30 + 10))
+        }
       >
         Play
       </button>
@@ -241,15 +251,6 @@ const AirPlane = ({ formik }) => {
           src={backgroundImage_url}
           className="brightness-[.8] !z-0 absolute  top-0 left-0 object-cover lg:h-[250px] h-[200px] w-[99.8%] bgimagedynamic"
         />
-        {/*<img
-          src={bg}
-          className="brightness-[.8] !z-0 absolute w-[950%] h-[950%] rotate-animation-bg object-cover -top-[390%] left-10  rounded-full"
-        />
-        <img
-          src={bg}
-          className="brightness-[.8] !z-0 absolute w-[950%] h-[950%] rotate-animation-bg object-cover -top-[390%] right-10  rounded-full"
-        /> */}
-        {/* fk.values.isShadowPath */}
         {fk.values.isShadowPath &&
           (isMediumScreen ? (
             <svg
@@ -264,7 +265,7 @@ const AirPlane = ({ formik }) => {
                   y1="195"
                   x2={`${bottomLeftCoordinate.x + 10}`}
                   y2="195"
-                  stroke="#BC0319"
+                  stroke="rgba(112,9,25, 0.6)"
                   strokeWidth="2"
                 />
               ) : (
@@ -300,7 +301,7 @@ const AirPlane = ({ formik }) => {
                   y1="145"
                   x2={`${bottomLeftCoordinate.x + 5}`}
                   y2="145"
-                  stroke="#BC0319"
+                  stroke="rgba(112,9,25, 0.6)"
                   strokeWidth="2"
                 />
               ) : (
@@ -324,10 +325,6 @@ const AirPlane = ({ formik }) => {
               )}
             </svg>
           ))}
-
-        {/* {fk.values.isFlying && !fk.values.isShadowPath && (
-          <p className="bg-[#BC0319] h-[3px] w-[18%] absolute bottom-[20px] shadow"></p>
-        )}{" "} */}
         <div className="maindiv absolute bottom-[20px] left-[20px]  animate-slidein infinite ">
           {fk.values.isEnablingWinner && (
             <p className="winslider z-20 rounded-full px-4 py-1">
@@ -342,19 +339,13 @@ const AirPlane = ({ formik }) => {
               src={air}
               className="airplain lg:w-[120px] w-[60px] lg:h-[60px]  h-[30px] text-[#BC0319] "
             />
-            {/* {fk.values.isFlying && (
-              <img
-                src={gif}
-                className="absolute w-[100px] lg:h-[150px] bg-blue-800 h-[60px] text-[#BC0319] smoke  top-2 -left-28"
-              />
-            )}{" "} */}
           </div>
         </div>
         {/* fk.values.isFlying */}
-        {true && (
+        {fk.values.isFlying && (
           <>
             {/* !fk.values.closeButtomDot */}
-            {true ? (
+            {!fk.values.closeButtomDot ? (
               <>
                 <LeftDottedPointMoveable />
                 <ButtomDottedPointMoveable />
@@ -436,19 +427,3 @@ const AirPlane = ({ formik }) => {
 };
 
 export default AirPlane;
-{
-  /* brightness-[0.4] */
-}
-{
-  /* <Box
-          component="img"
-          src={bg}
-          sx={{
-            width: "500%",
-            height: "1000%",
-            borderRadius: "7px",
-            animation: `rotate infinite 30s linear`,
-            filter: "brightness(0.4)",
-          }}
-        ></Box> */
-}
