@@ -18,6 +18,9 @@ import FreeBets from "./DialogComponent/FreeBets";
 import GameLimits from "./DialogComponent/GameLimits";
 import MybetHistory from "./DialogComponent/MybetHistory";
 import { gray } from "./color";
+import Changebackground from "./DialogComponent/Changebackground";
+import { PiSelectionBackground } from "react-icons/pi";
+
 export default function AccountMenu({ anchorEl, setAnchorEl }) {
   const dispatch = useDispatch()
   const [openCustomDialogBox, setOpenCustomDialogBox] = React.useState(false);
@@ -115,6 +118,19 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
           </p>
         </MenuItem>
         <Divider className="!bg-gray-500 !p-0" />
+        <MenuItem
+          className={`${gray} !text-white !text-sm !flex !justify-between`}
+          onClick={() => {
+            setOpenCustomDialogBox(true);
+            setTypeOfDialogBox("Change Background");
+            // handleClose()
+          }}
+        >
+          <p className="flex items-center gap-2">
+            <PiSelectionBackground /> <span>Change Background</span>
+          </p>
+        </MenuItem>
+        <Divider className="!bg-gray-500 !p-0" />
 
         <MenuItem
           className={`${gray} !text-white !text-sm !flex !justify-between`}
@@ -167,12 +183,14 @@ export default function AccountMenu({ anchorEl, setAnchorEl }) {
           component={
             (typeOfDialogBox === "Free Bets" && <FreeBets />) ||
             (typeOfDialogBox === "Game Limits" && <GameLimits />) ||
-            (typeOfDialogBox === "My Bet History" && <MybetHistory />)
+            (typeOfDialogBox === "My Bet History" && <MybetHistory />) ||
+            (typeOfDialogBox === "Change Background" && <Changebackground />)
           }
           title={
             (typeOfDialogBox === "Free Bets" && "FREE BETS MANAGEMENT") ||
             (typeOfDialogBox === "Game Limits" && "GAME LIMITS") ||
-            (typeOfDialogBox === "My Bet History" && "MY BET HISTORY")
+            (typeOfDialogBox === "My Bet History" && "MY BET HISTORY") || 
+            (typeOfDialogBox === "Change Background" && "CHOOSE BACKGROUND")
           }
         />
       )}

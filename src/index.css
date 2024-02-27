@@ -499,6 +499,9 @@ select option:focus {
 .rotate-animation {
   animation: rotate 2s linear infinite; /* Adjust the animation duration as needed */
 }
+.rotate-animation-bg {
+  animation: rotate 20s linear infinite; /* Adjust the animation duration as needed */
+}
 
 @keyframes rotate {
   from {
@@ -526,3 +529,66 @@ select option:focus {
   background: "blue"!important;
   height: 3px;
 }
+
+
+/* //////////// win slider */
+.winslider {
+  position: absolute;
+  background-image: url('./Assets//win.png');
+  animation: winsliderimage 2s linear infinite running;
+}
+
+@keyframes winsliderimage {
+  0% {
+    top: 0px;
+    left: 0px;
+  }
+  100% {
+    top: 100%; /* Change 'bottom' to 'top' for smooth sliding towards the bottom */
+    left: -100%;
+  }
+}
+
+.rotate-div {
+  transform: rotate(-45deg); /* Adjust the angle as needed */
+  transform-origin: bottom left;
+}
+
+.shadow{
+  animation:identifier 1s linear forwards running;
+}
+@keyframes identifier {
+  from{
+    width: 0%;
+  }
+  to{
+width: 15%;
+  }
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bgimagedynamic {
+  transform: perspective(-900px) translateZ(-200px);
+  animation: bgimagedynamic_ 50s linear infinite running;
+}
+@keyframes bgimagedynamic_ {
+  0% {
+    transform:  scaleZ(10) scaleX(1.5);
+  }
+  50% {
+    transform:  scaleZ(5) scaleX(1);
+  }
+  100% {
+    transform:  scaleZ(10) scaleX(1.5);
+  }
+}
+
+

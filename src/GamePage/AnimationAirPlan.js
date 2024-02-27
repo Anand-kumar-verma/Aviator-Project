@@ -4,11 +4,11 @@ export const demomobile = `
 @keyframes slidein {
     0% {
       left: 20px;
-      top: calc(100% - 60px);
+      top: calc(100% -  50px);
     }
     20% {
       left:80px;
-      top: calc(100% - 60px);
+      top: calc(100% -  50px);
     }
     50% {
       left: 40%;
@@ -16,30 +16,30 @@ export const demomobile = `
     }
     100% {
       left: 70%;
-      top: calc(30% - 40px);
+      top: calc(30% - 42px);
     }
   }
   
  @keyframes slideafter {
   0% {
     left: 70%;
-    top: calc(30% - 40px);
+    top: calc(30% - 42px);
   }
   25% {
-    left: 75%;
+    left: 72%;
     top: calc(50% - 40px);
   }
   50% {
-    left: 80%;
+    left: 75%;
     top: calc(60% - 40px);
   }
   75% {
-    left: 75%;
+    left: 72%;
     top: calc(50% - 40px);
   }
   100% {
     left: 70%;
-    top: calc(30% - 40px);
+    top: calc(30% - 42px);
   }
 }
 
@@ -47,7 +47,7 @@ export const demomobile = `
   @keyframes thirdAnimation {
     0% {
         left: 70%;
-        top: calc(30% - 40px);
+        top: calc(30% - 42px);
       }
     50% {
       left: 80%;
@@ -55,7 +55,7 @@ export const demomobile = `
     }
     100% {
       left: 100%;
-      top: 0;
+      top: 20px;
     }
   }
   
@@ -119,46 +119,38 @@ export const demomolap = `
 //   left: 70%;
 //   top: calc(30% - 100px);
 // }
-export function animationabove_10_sec(mainDiv, animationAdded,dispatch) {
+export function animationabove_10_sec(mainDiv, animationAdded,dispatch,fk) {
   console.log(animationAdded, "hiiabove10");
   mainDiv.style.animation = `slidein 5s linear forwards running`;
 
   mainDiv.addEventListener("animationend", () => {
-    mainDiv.style.animation = "";
     mainDiv.style.animation = `slideafter 5s linear forwards running ${
-      (animationAdded - 5) / 5  - 0.3
+      (animationAdded - 5) / 5 - .3  
     }`;
     mainDiv.addEventListener("animationend", () => {
-      mainDiv.style.animation = "";
-      mainDiv.style.animation = `thirdAnimation .3s linear forwards running`;
-      dispatch(byTimeIsEnableSound())
+      mainDiv.style.animation = `thirdAnimation .5s linear forwards running`;
     });
   });
 }
 
-export function animationupto_10_sec(mainDiv, animationAdded,dispatch) {
+export function animationupto_10_sec(mainDiv, animationAdded,dispatch,fk) {
   console.log(animationAdded, "hiiupto10");
   mainDiv.style.animation = `slidein ${
-    animationAdded - 0.3
+    animationAdded - .3
   }s linear forwards running`;
 
   mainDiv.addEventListener("animationend", () => {
-    mainDiv.style.animation = "";
-    mainDiv.style.animation = `thirdAnimation .3s linear forwards running`;
-    dispatch(byTimeIsEnableSound())
+    mainDiv.style.animation = `thirdAnimation .5s linear forwards running`;
   });
 }
 
-export function animationUpTo_5_sec(mainDiv, animationAdded,dispatch) {
-  console.log(animationAdded, "hiiupto5");
-
+export function animationUpTo_5_sec(mainDiv, animationAdded,dispatch,fk) {
   mainDiv.style.animation = `slidein ${
-    animationAdded - 0.3
+    animationAdded - .3
   }s linear forwards running`;
 
   mainDiv.addEventListener("animationend", () => {
-    mainDiv.style.animation = "";
-    mainDiv.style.animation = `thirdAnimation .3s linear forwards running`;
-    dispatch(byTimeIsEnableSound())
+    mainDiv.style.animation = `thirdAnimation .5s linear forwards running`;
+   
   });
 }
