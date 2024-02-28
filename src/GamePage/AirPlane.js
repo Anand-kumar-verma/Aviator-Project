@@ -214,7 +214,7 @@ const AirPlane = ({ formik, fk }) => {
       >
         <img
           src={backgroundImage_url}
-          className="brightness-[.8] !z-0 absolute  top-0 left-0 object-cover lg:h-[250px] h-[200px] w-[99.8%] bgimagedynamic"
+          className={`${backgroundImage_url === "https://res.cloudinary.com/do7kimovl/image/upload/v1709114502/circle_dafpdo.svg"?"absolute  -bottom-[200%] left-0 rotate_background_image !z-0 bg-gradient-to-l from-[#541850] to-[#341a55] bg-opacity-5 w-[500%] h-[500%]":"bgimagedynamic !z-0 absolute  top-0 left-0 lg:h-[250px] h-[200px] w-[99.8%]"}  object-cover `}
         />
         {fk.values.isShadowPath &&
           (isMediumScreen ? (

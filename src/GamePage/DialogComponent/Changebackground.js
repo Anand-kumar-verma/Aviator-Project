@@ -41,7 +41,7 @@ const Changebackground = ({ setOpenCustomDialogBox,handleClose }) => {
     },
     {
       id: 7,
-      url: "https://res.cloudinary.com/do7kimovl/image/upload/v1708946388/backgroundairplane_ovzefg.png",
+      url: "https://res.cloudinary.com/do7kimovl/image/upload/v1709114502/circle_dafpdo.svg",
     },
   ];
   
@@ -53,7 +53,7 @@ const Changebackground = ({ setOpenCustomDialogBox,handleClose }) => {
       >
         <img
           src={imageUrl}
-          className="brightness-[.8] !z-0 absolute  top-0 left-0 object-cover lg:h-[250px] h-[200px] w-[99.8%] bgimagedynamic"
+          className=" !z-0 absolute  top-0 left-0 object-cover lg:h-[250px] h-[200px] w-[99.8%] bgimagedynamic"
         />
 
         {isMediumScreen && isPreviewEnabel ? (
@@ -115,7 +115,7 @@ const Changebackground = ({ setOpenCustomDialogBox,handleClose }) => {
               key={index}
               src={i.url}
               
-                className="cursor-pointer lg:h-[100px] lg:w-[100px] h-[50px] w-[50px]"
+                className="bg-gray-500 cursor-pointer lg:h-[100px] lg:w-[100px] h-[50px] w-[50px] border-[2px] border-blue-800 rounded-md"
               onClick={() => {
                 setImageUrl(i?.url);
               }}

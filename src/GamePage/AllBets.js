@@ -18,12 +18,12 @@ const AllBets = ({ formik,fk }) => {
     if (allbetsdata  ) {
       fetchData();
     }
-  }, [allbetsdata]);
+  }, [allbetsdata,formik.values.refetch]);
 
   const fetchData = async () => {
     const newData = allbetsdata;
-    for (let i = 0; i < newData.length && !fk?.values?.isFlying; i++) {
-      setDisplayedData((prevData) => [...prevData, newData[i]]);
+    for (let i = 0; i < newData.length ; i++) {
+      !fk?.values?.isFlying||displayedData?.length < 20 && setDisplayedData((prevData) => [...prevData, newData[i]]);
       setIsAvailable((prevData) =>
         isAvailable.length < 6
           ? [...prevData, Math.floor(Math.random() * 100) + 1]

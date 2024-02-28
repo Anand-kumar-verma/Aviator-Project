@@ -566,14 +566,6 @@ width: 15%;
   }
 }
 
-@keyframes rotateAnimation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .bgimagedynamic {
   transform: perspective(-900px) translateZ(-200px);
@@ -588,6 +580,20 @@ width: 15%;
   }
   100% {
     transform:  scaleZ(10) scaleX(1.5);
+  }
+}
+
+.rotate_background_image{
+  animation:rotateAnimation 20s linear infinite running;
+}
+
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
