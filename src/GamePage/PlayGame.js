@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { increment, selectCount } from "../redux/slices/counterSlice";
 
 const PlayGame = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const userId = JSON.parse(localStorage.getItem("logindata"))?.id;
   const isMediumScreen = useMediaQuery({ minWidth: 800 });
   const [value, setValue] = React.useState(0);
@@ -84,7 +84,7 @@ const PlayGame = () => {
 
   const result = data?.data?.data || [];
   const walletAmount = walletdata?.data || 0;
-  console.log(walletAmount, "amo");
+
   const initialValue = {
     refetch: 1,
   };
@@ -95,8 +95,38 @@ const PlayGame = () => {
     },
   });
 
+  ///////////////////////  for airplane data
+  const initialValues = {
+    country: "India",
+    currency: "INR",
+    mob: "",
+    pass: "",
+    // value for bet1 button
+    isStart1: false,
+    waitingForNextTime1: false,
+    autocashout1: false,
 
-  
+    // value for bet1 button
+    isStart2: false,
+    waitingForNextTime2: false,
+    autocashout2: false,
+
+    // common for all
+    isFlying: false,
+    setcolorofdigit: false,
+    setloder: false,
+    closeButtomDot: true,
+    isEnablingWinner: false,
+    isShadowPath: false,
+  };
+
+  const fk = useFormik({
+    initialValues: initialValues,
+    onSubmit: () => {
+      console.log(fk.values);
+    },
+  });
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center">
@@ -105,7 +135,6 @@ const PlayGame = () => {
     );
   return (
     <div className=" h-full">
- 
       {isMediumScreen && <div iv className={`bg-[#0E0E0E] h-[10%]`}></div>}
       <div className={`${gray} h-[10%] flex justify-between text-white p-1`}>
         <div>
@@ -161,30 +190,30 @@ const PlayGame = () => {
               );
             })}
           </div>
-          <AirPlane formik={formik} />
+          <AirPlane formik={formik} fk={fk} />
         </div>
         {/* // left section */}
         <div
           className={`w-[100%] lg:w-[25%] lg:h-[450px] h-[500px] ${gray} px-2 border-2 border-black rounded-lg`}
         >
           <div className="flex justify-center w-full">
-          <Tabs
-  value={value}
-  onChange={handleChange}
-  aria-label="basic tabs example"
-  className="!text-sm !flex !justify-center"
-  classes={{ indicator: 'custom-tab-indicator' }} // Add this line to apply custom styling
->
-  {["All Bets", "My Bets", "Top"]?.map((i, index) => (
-    <Tab
-      label={i}
-      {...a11yProps(index)}
-      className="!text-sm !text-white"
-    />
-  ))}
-</Tabs>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              className="!text-sm !flex !justify-center"
+              classes={{ indicator: "custom-tab-indicator" }} // Add this line to apply custom styling
+            >
+              {["All Bets", "My Bets", "Top"]?.map((i, index) => (
+                <Tab
+                  label={i}
+                  {...a11yProps(index)}
+                  className="!text-sm !text-white"
+                />
+              ))}
+            </Tabs>
           </div>
-          {(value === 0 && <AllBets formik={formik} />) ||
+          {(value === 0 && <AllBets formik={formik} fk={fk}/>) ||
             (value === 1 && <MyBets />) ||
             (value === 2 && <Top />)}
         </div>

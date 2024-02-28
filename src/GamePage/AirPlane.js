@@ -37,7 +37,8 @@ import bg from "../Assets/bg.jpg";
 import io from "socket.io-client";
 import cloud from "../Assets/cloud.png";
 const socket = io("https://app.ferryinfotech.in/");
-const AirPlane = ({ formik }) => {
+// const socket = io("http://localhost:9000");
+const AirPlane = ({ formik, fk }) => {
   const dispatch = useDispatch();
   const backgroundImage_url = useSelector(
     (state) => state.aviator.backgroundImage_url
@@ -62,42 +63,10 @@ const AirPlane = ({ formik }) => {
       console.log(newMessage, "This is new message");
       startFly(newMessage);
     });
-
     return () => {
       socket.off("message");
     };
   }, []);
-
-  const initialValue = {
-    country: "India",
-    currency: "INR",
-    mob: "",
-    pass: "",
-    // value for bet1 button
-    isStart1: false,
-    waitingForNextTime1: false,
-    autocashout1: false,
-
-    // value for bet1 button
-    isStart2: false,
-    waitingForNextTime2: false,
-    autocashout2: false,
-
-    // common for all
-    isFlying: false,
-    setcolorofdigit: false,
-    setloder: false,
-    closeButtomDot: true,
-    isEnablingWinner: false,
-    isShadowPath: false,
-  };
-
-  const fk = useFormik({
-    initialValues: initialValue,
-    onSubmit: () => {
-      console.log(fk.values);
-    },
-  });
 
   function hii(randomFlyingTime) {
     const mainDiv = document.getElementsByClassName("maindiv")[0];
@@ -108,19 +77,19 @@ const AirPlane = ({ formik }) => {
     if (randomFlyingTime <= 5) {
       animationUpTo_5_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-       dispatch(byTimeIsEnableSound(true))
+        dispatch(byTimeIsEnableSound(true));
         fk.setFieldValue("isShadowPath", false);
       }, (randomFlyingTime - 0.3) * 1000);
     } else if (randomFlyingTime > 5 && randomFlyingTime < 10) {
       animationupto_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-       dispatch(byTimeIsEnableSound(true))
+        dispatch(byTimeIsEnableSound(true));
         fk.setFieldValue("isShadowPath", false);
       }, (randomFlyingTime - 0.3) * 1000);
     } else {
       animationabove_10_sec(mainDiv, randomFlyingTime, dispatch, fk);
       setTimeout(() => {
-       dispatch(byTimeIsEnableSound(true))
+        dispatch(byTimeIsEnableSound(true));
         fk.setFieldValue("isShadowPath", false);
       }, (5 + ((randomFlyingTime - 5) / 5 - 0.3) * 5) * 1000);
     }
@@ -150,11 +119,11 @@ const AirPlane = ({ formik }) => {
           fk.setFieldValue("waitingForNextTime1", false);
           fk.setFieldValue("waitingForNextTime2", false);
 
-          formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
-         
+          // formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
+
           fk.setFieldValue("isFlying", false);
           setResultFuncton();
-         
+
           mainDiv.style.animation = "";
           clearInterval(timerInterval);
         } else if (milliseconds >= 100) {
@@ -183,7 +152,6 @@ const AirPlane = ({ formik }) => {
     }, randomFlyingTime * 1000 - 2000);
     // Clear interval after randomFlyingTime seconds
     setTimeout(() => {
-      
       fk.setFieldValue("setcolorofdigit", true);
       fk.setFieldValue("isShadowPath", false);
       // fk.setFieldValue("isStart1", false);
@@ -204,10 +172,9 @@ const AirPlane = ({ formik }) => {
       fk.setFieldValue("setcolorofdigit", false);
       fk.setFieldValue("setloder", true);
       dispatch(byTimeIsEnableMusic(false));
-      
     }, randomFlyingTime * 1000 + 3000);
     setTimeout(() => {
-      dispatch(byTimeIsEnableSound(false))
+      dispatch(byTimeIsEnableSound(false));
     }, randomFlyingTime * 1000 + 6000);
 
     setTimeout(() => {
@@ -237,9 +204,7 @@ const AirPlane = ({ formik }) => {
     <>
       <button
         className="bg-blue-700 rounded-full px-4"
-        onClick={() => 
-     startFly(Math.floor(Math.random() * 30 + 10))
-        }
+        onClick={() => startFly(Math.floor(Math.random() * 30 + 10))}
       >
         Play
       </button>
