@@ -61,8 +61,9 @@ export const App = () => {
       console.error("Error during play:", error);
     }
   };
-
-  console.log(backgroundMusic_url,"this is music url");
+ useEffect(()=>{
+  localStorage.removeItem('hasCodeExecuted');
+ },[])
   return (
     <BrowserRouter>
       <audio ref={audioRefMusic}  hidden >

@@ -36,8 +36,8 @@ import win from "../Assets/win.png";
 import bg from "../Assets/bg.jpg";
 import io from "socket.io-client";
 import cloud from "../Assets/cloud.png";
-const socket = io("https://app.ferryinfotech.in/");
-// const socket = io("http://localhost:9000");
+// const socket = io("https://app.ferryinfotech.in/");
+const socket = io("http://localhost:9000");
 const AirPlane = ({ formik, fk }) => {
   const dispatch = useDispatch();
   const backgroundImage_url = useSelector(
@@ -52,10 +52,15 @@ const AirPlane = ({ formik, fk }) => {
     x: 0,
     y: 0,
   });
-  let milliseconds = String(time % 1000)
-    .padStart(3, "0")
-    .substring(0, 2);
-  let seconds = Math.floor((time / 1000) % 100);
+  const [combineTime, setcombineTime] = useState("0_0");
+  // const [seconds,setseconds] = useState(0);
+
+  // let milliseconds = String(time % 1000)
+  //   .padStart(3, "0")
+  //   .substring(0, 2);
+  // let seconds = Math.floor((time / 1000) % 100);
+  let milliseconds = combineTime?.split("_")?.[0].substring(0, 2);
+  let seconds = Number(combineTime?.split("_")?.[1]);
   const client = useQueryClient();
 
   useEffect(() => {
@@ -63,10 +68,49 @@ const AirPlane = ({ formik, fk }) => {
       console.log(newMessage, "This is new message");
       startFly(newMessage);
     });
+    // socket.on("milliseconds", (milliseconds) => {
+    //   setmiliseconds(milliseconds)
+    //   // milliseconds=milliseconds
+    // });
+    // socket.on("seconds", (seconds) => {
+    //    setseconds(seconds)
+    //   // seconds = seconds;
+    //  });
     return () => {
       socket.off("message");
+      // socket.off("milliseconds");
+      // socket.off("seconds");
     };
   }, []);
+  useEffect(() => {
+    socket.on("seconds", (seconds) => {
+      setcombineTime(seconds);
+    });
+    socket.on("setcolorofdigit", (color_value) => {
+      fk.setFieldValue("setcolorofdigit", color_value);
+    });
+    socket.on("setloder", (setloder) => {
+      fk.setFieldValue("setloder", setloder);
+    });
+    socket.on("isFlying", (isFlying) => {
+      fk.setFieldValue("isFlying", isFlying);
+    });
+    return () => {
+      socket.off("seconds");
+      socket.off("setcolorofdigit");
+      socket.off("setloder");
+      socket.off("isFlying");
+    };
+  }, []);
+  // useEffect(() => {
+  //   socket.on("milliseconds", (milliseconds) => {
+  //     setmiliseconds(milliseconds)
+  //     // milliseconds=milliseconds
+  //   });
+  //   return () => {
+  //     socket.off("milliseconds");
+  //   };
+  // }, []);
 
   function hii(randomFlyingTime) {
     const mainDiv = document.getElementsByClassName("maindiv")[0];
@@ -97,8 +141,8 @@ const AirPlane = ({ formik, fk }) => {
 
   function startFly(randomFlyingTime) {
     dispatch(byTimeIsEnableMusic(true));
-    fk.setFieldValue("setloder", false);
-    fk.setFieldValue("isFlying", true);
+    // fk.setFieldValue("setloder", false);
+    // fk.setFieldValue("isFlying", true);
     fk.setFieldValue("closeButtomDot", true);
     fk.setFieldValue("isEnablingWinner", true);
     const mainDiv = document.getElementsByClassName("maindiv")[0];
@@ -107,39 +151,10 @@ const AirPlane = ({ formik, fk }) => {
     // Log the coordinates to the console
 
     const timerInterval = setInterval(() => {
-      setTime((prevTime) => {
-        const newTime = prevTime + 1;
-        if (newTime >= (randomFlyingTime - 1.5) * 1000) {
-          setTime(0);
-          milliseconds = 0;
-          seconds = 0;
-          //  fk.setFieldValue("isStart1", false);
-          //  fk.setFieldValue("isStart2", false);
-
-          fk.setFieldValue("waitingForNextTime1", false);
-          fk.setFieldValue("waitingForNextTime2", false);
-
-          // formik.setFieldValue("refetch", Number(formik.values.refetch) + 1);
-
-          fk.setFieldValue("isFlying", false);
-          setResultFuncton();
-
-          mainDiv.style.animation = "";
-          clearInterval(timerInterval);
-        } else if (milliseconds >= 100) {
-          // Update seconds when milliseconds reach 100
-          seconds += 1;
-          milliseconds = 0;
-        }
-
-        return newTime;
-      });
-
       const airplainimage = document.getElementsByClassName("maindiv")[0];
       const parentDiv = document.getElementsByClassName("parentdiv")[0]; // Assuming "maindiv" is the parent element
       const airplainRect = airplainimage.getBoundingClientRect();
       const parentRect = parentDiv.getBoundingClientRect();
-
       const newBottomLeftCoordinates = {
         x: airplainRect.x - parentRect.x,
         y: airplainRect.y - parentRect.y,
@@ -152,11 +167,11 @@ const AirPlane = ({ formik, fk }) => {
     }, randomFlyingTime * 1000 - 2000);
     // Clear interval after randomFlyingTime seconds
     setTimeout(() => {
-      fk.setFieldValue("setcolorofdigit", true);
+      // fk.setFieldValue("setcolorofdigit", true);
       fk.setFieldValue("isShadowPath", false);
       // fk.setFieldValue("isStart1", false);
       // fk.setFieldValue("isStart2", false);
-      fk.setFieldValue("isFlying", false);
+      // fk.setFieldValue("isFlying", false);
       fk.setFieldValue("waitingForNextTime1", false);
       fk.setFieldValue("waitingForNextTime2", false);
       setResultFuncton();
@@ -166,11 +181,6 @@ const AirPlane = ({ formik, fk }) => {
     }, (randomFlyingTime - 0.5) * 1000);
 
     setTimeout(() => {
-      setTime(0);
-      milliseconds = 0;
-      seconds = 0;
-      fk.setFieldValue("setcolorofdigit", false);
-      fk.setFieldValue("setloder", true);
       dispatch(byTimeIsEnableMusic(false));
     }, randomFlyingTime * 1000 + 3000);
     setTimeout(() => {
@@ -214,7 +224,12 @@ const AirPlane = ({ formik, fk }) => {
       >
         <img
           src={backgroundImage_url}
-          className={`${backgroundImage_url === "https://res.cloudinary.com/do7kimovl/image/upload/v1709114502/circle_dafpdo.svg"?"absolute  -bottom-[200%] left-0 rotate_background_image !z-0 bg-gradient-to-l from-[#541850] to-[#341a55] bg-opacity-5 w-[500%] h-[500%]":"bgimagedynamic !z-0 absolute  top-0 left-0 lg:h-[250px] h-[200px] w-[99.8%]"}  object-cover `}
+          className={`${
+            backgroundImage_url ===
+            "https://res.cloudinary.com/do7kimovl/image/upload/v1709114502/circle_dafpdo.svg"
+              ? "absolute  -bottom-[200%] left-0 rotate_background_image !z-0 bg-gradient-to-l from-[#541850] to-[#341a55] bg-opacity-5 w-[500%] h-[500%]"
+              : "bgimagedynamic !z-0 absolute  top-0 left-0 lg:h-[250px] h-[200px] w-[99.8%]"
+          }  object-cover `}
         />
         {fk.values.isShadowPath &&
           (isMediumScreen ? (

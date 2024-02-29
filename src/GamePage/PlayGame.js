@@ -16,7 +16,10 @@ import { useMediaQuery } from "react-responsive";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, selectCount } from "../redux/slices/counterSlice";
-
+import io from "socket.io-client";
+import cloud from "../Assets/cloud.png";
+// const socket = io("https://app.ferryinfotech.in/");
+ const socket = io("http://localhost:9000");
 const PlayGame = () => {
   const dispatch = useDispatch();
   const userId = JSON.parse(localStorage.getItem("logindata"))?.id;
@@ -24,6 +27,7 @@ const PlayGame = () => {
   const [value, setValue] = React.useState(0);
   const [limit, setlimit] = useState(100);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [lodingEnable, setlodingEnable] = useState(false);
   const handleClick = (event) => {
     anchorEl === null ? setAnchorEl(event.currentTarget) : setAnchorEl(null);
   };
@@ -127,6 +131,23 @@ const PlayGame = () => {
     },
   });
 
+  // useEffect(() => {
+  //   const hasCodeExecuted = localStorage.getItem("hasCodeExecuted");
+  //   console.log("line executed once upper the if block");
+  //   if (!hasCodeExecuted) {
+  //     socket.on("isFlying", (isFlying) => {
+  //       if (isFlying && !lodingEnable) {
+  //         setlodingEnable(true);
+  //         console.log(isFlying, "This is loding");
+  //       }
+  //     });
+  //     localStorage.setItem("hasCodeExecuted", true);
+  //     return () => {
+  //       socket.off("isFlying");
+  //     };
+  //   }
+  // }, []);
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center">
@@ -213,7 +234,7 @@ const PlayGame = () => {
               ))}
             </Tabs>
           </div>
-          {(value === 0 && <AllBets formik={formik} fk={fk}/>) ||
+          {(value === 0 && <AllBets formik={formik} fk={fk} />) ||
             (value === 1 && <MyBets />) ||
             (value === 2 && <Top />)}
         </div>

@@ -45,9 +45,9 @@ const AllBets = ({ formik,fk }) => {
     }
   };
 
-  useEffect(()=>{
-    getAllBets()
-  },[formik.values.refetch])
+  // useEffect(()=>{
+  //   getAllBets()
+  // },[formik.values.refetch])
 
 
   if (isLoading)
