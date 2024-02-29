@@ -36,8 +36,8 @@ import win from "../Assets/win.png";
 import bg from "../Assets/bg.jpg";
 import io from "socket.io-client";
 import cloud from "../Assets/cloud.png";
- const socket = io("https://app.ferryinfotech.in/");
-//const socket = io("http://localhost:9000");
+  const socket = io("https://app.ferryinfotech.in/");
+// const socket = io("http://localhost:9000");
 const AirPlane = ({ formik, fk }) => {
   const dispatch = useDispatch();
   const backgroundImage_url = useSelector(
@@ -88,6 +88,7 @@ const AirPlane = ({ formik, fk }) => {
     });
     socket.on("setcolorofdigit", (color_value) => {
       fk.setFieldValue("setcolorofdigit", color_value);
+      console.log(color_value,"This is color Value")
     });
     socket.on("setloder", (setloder) => {
       fk.setFieldValue("setloder", setloder);

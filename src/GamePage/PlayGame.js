@@ -16,10 +16,7 @@ import { useMediaQuery } from "react-responsive";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, selectCount } from "../redux/slices/counterSlice";
-import io from "socket.io-client";
-import cloud from "../Assets/cloud.png";
-const socket = io("https://app.ferryinfotech.in/");
-// const socket = io("http://localhost:9000");
+
 const PlayGame = () => {
   const dispatch = useDispatch();
   const userId = JSON.parse(localStorage.getItem("logindata"))?.id;
